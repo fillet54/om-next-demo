@@ -47,18 +47,19 @@
 
 (defmethod mutatef 'todos/create
   [{:keys [conn]} k {:keys [:todo/title]}]
-  {:value [:todos/list]
+  {:value {:keys [:todos/list]}
    :action
    (fn []
      @(d/transact conn
         [{:db/id          #db/id[:db.part/user]
           :todo/title     title
           :todo/completed false
-          :todo/created   (java.util.Date.)}]))})
+          :todo/created   (java.util.Date.)}])
+     nil)})
 
 (defmethod mutatef 'todo/update
   [{:keys [conn]} k {:keys [db/id todo/completed todo/title]}]
-  {:value [[:todos/by-id id]]
+  {:value {:keys [:todos/by-id id]}
    :action
    (fn []
      @(d/transact conn
@@ -66,14 +67,16 @@
            (when (or (true? completed) (false? completed))
              {:todo/completed completed})
            (when title
-             {:todo/title title}))]))})
+             {:todo/title title}))])
+     nil)})
 
 (defmethod mutatef 'todo/delete
   [{:keys [conn]} k {:keys [db/id]}]
-  {:value [:todos/list]
+  {:value {:keys [:todos/list]}
    :action
    (fn []
-     @(d/transact conn [[:db.fn/retractEntity id]]))})
+     @(d/transact conn [[:db.fn/retractEntity id]])
+     nil)})
 
 (comment
   (require '[todomvc.core :as cc]
