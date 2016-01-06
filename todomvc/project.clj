@@ -8,13 +8,14 @@
 
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.170"]
-                 [com.datomic/datomic-free "0.9.5206"]
+                 [com.datomic/datomic-free "0.9.5206" :exclusions ["joda-time"]]
                  [bidi "1.20.3"]
-                 [org.omcljs/om "1.0.0-alpha20-SNAPSHOT"]
+                 [org.omcljs/om "1.0.0-alpha28"]
                  [ring/ring "1.4.0"]
                  [com.cognitect/transit-clj "0.8.281"]
                  [com.cognitect/transit-cljs "0.8.225"]
-                 [com.stuartsierra/component "0.2.3"]]
+                 [com.stuartsierra/component "0.2.3"]
+                 [figwheel-sidecar "0.5.0-SNAPSHOT" :scope "test"]]
 
   :source-paths ["src/clj" "src/cljs" "src/dev"]
   )
