@@ -8,7 +8,7 @@
 
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.170"]
-                 [com.datomic/datomic-free "0.9.5206" :exclusions ["joda-time"]]
+                 [com.datomic/datomic-free "0.9.5206" :exclusions [joda-time]]
                  [bidi "1.20.3"]
                  [org.omcljs/om "1.0.0-alpha28"]
                  [ring/ring "1.4.0"]
@@ -18,4 +18,6 @@
                  [figwheel-sidecar "0.5.0-SNAPSHOT" :scope "test"]]
 
   :source-paths ["src/clj" "src/cljs" "src/dev"]
-  )
+  :profiles {:dev {:source-paths ["dev"]
+                   :dependencies [[org.clojure/tools.namespace "0.2.3"]
+                                  [org.clojure/java.classpath "0.2.0"]]}})

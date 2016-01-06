@@ -79,7 +79,9 @@
        ;; if no container
        (assoc component :handler (handler conn)))))
   (stop [component]
-    (.stop container)))
+    (let [{:keys [container]} component]
+      (.stop container))
+    component))
 
 (defn dev-server [web-port]
   (WebServer. web-port todomvc-handler-dev true nil))

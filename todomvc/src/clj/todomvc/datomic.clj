@@ -15,7 +15,8 @@
       @(d/transact c schema)
       @(d/transact c initial-data)
       (assoc component :connection c)))
-  (stop [component]))
+  (stop [component]
+    component))
 
 (defn new-database [db-uri]
   (DatomicDatabase.

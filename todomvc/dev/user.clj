@@ -1,7 +1,13 @@
-(require
-  '[figwheel-sidecar.repl-api :as ra]
-  '[com.stuartsierra.component :as component]
-  '[todomvc.system :as system])
+(ns user
+  (:require [clojure.java.io :as io]
+            [clojure.string :as str]
+            [clojure.pprint :refer (pprint)]
+            [clojure.repl :refer :all]
+            [clojure.test :as test]
+            [clojure.tools.namespace.repl :refer (refresh refresh-all)]
+            [figwheel-sidecar.repl-api :as ra]
+            [com.stuartsierra.component :as component]
+            [todomvc.system :as system]))
 
 (def figwheel-config
   {:figwheel-options {}
@@ -22,6 +28,9 @@
                                   :closure-defines '{goog.DEBUG true}
                                   :verbose true}}]})
 
+(def server-config {:db-uri "datomic:mem://localhost:4334/todos"
+                    :web-port 8081})
+
 (defrecord Figwheel []
   component/Lifecycle
   (start [config]
@@ -35,9 +44,7 @@
   (atom
     (component/system-map
       :figwheel (map->Figwheel figwheel-config)
-      :app-server (system/dev-system
-                    {:db-uri   "datomic:mem://localhost:4334/todos"
-                     :web-port 8081}))))
+      :app-server (system/dev-system server-config))))
 
 (defn start []
   (swap! sys component/start))
@@ -45,9 +52,9 @@
 (defn stop []
   (swap! sys component/stop))
 
-(defn reload []
+(defn reset []
   (stop)
-  (start))
+  (refresh :after 'user/start))
 
 (defn repl []
   (ra/cljs-repl))
