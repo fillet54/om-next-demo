@@ -65,6 +65,15 @@
      (swap! state update-in ref merge new-props))
    })
 
+(defmethod mutate 'todo/delete
+  [{:keys [state ref]} _ _]
+  {:remote true
+   :action ;; OPTIMISTIC UPDATE
+   (fn []
+     (swap! state update-in [:todos/list]
+            (fn [list]
+              (remove #(= % ref) list))))})
+
 (defmethod mutate 'todo/edit
   [{:keys [state]} _ {:keys [db/id]}]
   {:action
